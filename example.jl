@@ -52,7 +52,7 @@ end
 # Plot the original time-series and the fit
 plt = let 
     Y_original = Y[:, 1]
-    Y_fitted = model(TestMod.X)[:, 1] |> real
+    Y_fitted = model(X)[:, 1] |> real
     
     plt = lineplot(Y_original, width=140, height=25)
     lineplot!(plt, Y_fitted)
