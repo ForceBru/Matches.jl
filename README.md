@@ -3,6 +3,8 @@
 The most barebones machine learning "framework" that can compute gradients without backpropagation.
 Based on "Gradients without backpropagation" [1].
 
+__NOTE__: I'm _not_ one of the authors and have no affiliation with the paper. I just found it interesting and tried to see whether it works.
+
 The interface mimicks PyTorch, but since this package is just a toy, it's not a torch, but a bunch of matches :P
 
 ## Basic usage
