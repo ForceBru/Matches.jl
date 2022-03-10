@@ -1,6 +1,6 @@
 # Matches.jl
 
-The most barebones machine learning "framework" that can compute gradients without backpropagation.
+The most barebones machine learning "framework" that can compute (unbiased estimates of) gradients without backpropagation.
 Based on "Gradients without backpropagation" [1].
 
 __NOTE__: I'm _not_ one of the authors and have no affiliation with the paper. I just found it interesting and tried to see whether it works.
@@ -23,14 +23,16 @@ model = Sequential(
     Linear(5, 1)
 )
 
-# 3. Set up gradient-descent optimizer.
-# This computes the "forward gradient" from the paper.
+# 3. Set up gradient descent optimizer.
+# It can compute the "forward gradient" from the paper.
 optim = Descent(params(model), 1e-4)
 
 # 4. Train.
 for epoch in 1:50_000
+    # Randomize the dual parts of model parameters
     random_dual!(optim)
     loss = Losses.mse(model(X), Y)
+    # Estimate the gradient and use it in gradient descent
     step!(optim, loss)
 
     if epoch % 1000 == 0

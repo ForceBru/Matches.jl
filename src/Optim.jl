@@ -39,6 +39,8 @@ Computes the forward gradient and updates model parameters.
 See paper: <https://arxiv.org/abs/2202.08587>
 """
 function step!(d::Descent, loss::Dual, lr::Real=d.lr)
+    @assert lr > 0
+    
     # One step of gradient descent
     for par in d.params
         @inbounds for i in eachindex(par)
