@@ -38,7 +38,12 @@ end
 Y_hat = model(X)
 ```
 
-Also see [`example.jl`](./example.jl).
+Also see [`example.jl`](./example.jl). Basic usage:
+
+```sh
+$ wget https://raw.githubusercontent.com/ForceBru/Matches.jl/master/example.jl
+$ julia example.jl
+```
 
 ## References
 
