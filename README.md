@@ -14,7 +14,7 @@ using Matches
 
 # 1. Get data.
 n_observations, n_features = 100, 5
-X, Y = randn(n_observations, n_features), randn(n_observations, 1)
+X, Y = cumsum(randn(n_observations, n_features)), cumsum(randn(n_observations, 1))
 
 # 2. Build model, PyTorch-like.
 model = Sequential(
@@ -32,10 +32,14 @@ for epoch in 1:50_000
     random_dual!(optim)
     loss = Losses.mse(model(X), Y)
     step!(optim, loss)
+
+    if epoch % 1000 == 0
+        @show (epoch, real(loss))
+    end
 end
 
 # 5. Predict!
-Y_hat = model(X)
+Y_hat = real(model(X))
 ```
 
 Also see [`example.jl`](./example.jl). Basic usage:
