@@ -38,7 +38,7 @@ end
 Y_hat = model(X)
 ```
 
-Also see <./example.jl>.
+Also see [`example.jl`](./example.jl).
 
 ## References
 
