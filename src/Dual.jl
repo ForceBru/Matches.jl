@@ -1,4 +1,4 @@
-export Dual, TrackedDual, track!
+export Dual
 
 """
 $(TYPEDEF)
