@@ -14,7 +14,7 @@ using Matches
 
 # 1. Get data.
 n_observations, n_features = 100, 5
-X, Y = cumsum(randn(n_observations, n_features)), cumsum(randn(n_observations, 1))
+X, Y = cumsum(randn(n_observations, n_features), dims=1), cumsum(randn(n_observations, 1), dims=1)
 
 # 2. Build model, PyTorch-like.
 model = Sequential(
