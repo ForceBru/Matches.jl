@@ -1,7 +1,7 @@
 name = "Matches"
 uuid = "cc7bb1c6-c516-4f87-8bff-2b03ea31ba11"
 authors = ["ForceBru <ForceBru@users.noreply.github.com>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
