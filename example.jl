@@ -17,6 +17,7 @@ function to_windows(series::AbstractVector, win_size)
 end
 
 # Data (n_observations, n_features)
+@info "Generating fake data..."
 time_series = cumsum(randn(200))
 windows = to_windows(time_series, 20 + 1)
 
@@ -35,6 +36,7 @@ optim = Adam(params(model), 1e-4)
 
 # Train
 epochs = 50_000
+@info "Training for $epochs epochs..."
 loss_history = Real[]
 for epoch in 1:epochs
     random_dual!(optim)
@@ -50,6 +52,7 @@ for epoch in 1:epochs
 end
 
 # Plot the original time-series and the fit
+@info "Plotting fit..."
 plt = let 
     Y_original = Y[:, 1]
     Y_fitted = model(X)[:, 1] |> real
@@ -60,3 +63,5 @@ plt = let
 end
 
 display(plt)
+
+@info "DONE!"
