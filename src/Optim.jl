@@ -9,7 +9,7 @@ $(TYPEDFIELDS)
 """
 struct Descent
     "Parameters to be tweaked"
-    params::Vector{AbstractVecOrMat}
+    params::Tuple{Vararg{AbstractVecOrMat}} # I bet this is highly type-unstabe
 
     "Learning rate"
     lr::Real

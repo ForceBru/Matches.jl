@@ -14,8 +14,7 @@ import Statistics: mean
 
 using DocStringExtensions
 
-DocStringExtensions
-
+include("Utils.jl")
 include("Dual.jl")
 include("ML.jl")
 include("Optim.jl")

@@ -30,7 +30,7 @@ end
 
 abstract type AbstractModule end
 
-params(::Any) = AbstractVecOrMat[]
+params(::Any)::Tuple{Vararg{AbstractVecOrMat}} = ()
 
 # ===== Linear =====
 mutable struct Linear{T<:Real} <: AbstractModule
@@ -53,7 +53,7 @@ function Linear(in_::Integer, out::Integer)
     Linear(Dual.(W), Dual.(b))
 end
 
-params(m::Linear)::Vector{AbstractVecOrMat} = [m.W, m.b]
+params(m::Linear)::Tuple{AbstractMatrix, AbstractVector} = (m.W, m.b)
 
 
 (m::Linear)(x::AbstractVecOrMat) = x * transpose(m.W) .+ transpose(m.b)
@@ -73,8 +73,8 @@ mutable struct Sequential <: AbstractModule
     Sequential(modules...) = new([modules...])
 end
 
-params(m::Sequential)::Vector{AbstractVecOrMat} =
-    vcat(params.(m.modules)...)
+params(m::Sequential)::Tuple{Vararg{AbstractVecOrMat}} =
+    tuplejoin(params.(m.modules)...)
 
 function (m::Sequential)(x::AbstractVecOrMat)
     res = x
