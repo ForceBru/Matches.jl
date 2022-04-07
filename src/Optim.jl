@@ -57,7 +57,7 @@ end
 """
 $(TYPEDEF)
 
-State of the ADAM optimizer. See paper at https://arxiv.org/abs/1412.6980
+State of the ADAM optimizer. See paper at <https://arxiv.org/abs/1412.6980>
 
 $(TYPEDFIELDS)
 """
@@ -71,7 +71,7 @@ mutable struct Adam{T<:Real} <: Optimizer
     β1::Real
     "Smoothing for 2nd moment"
     β2::Real
-    "Very small positive constant"
+    "Current iteration ('time')"
     t::UInt
 
     "1st moment vector"
@@ -99,7 +99,7 @@ function step!(opt::Adam, loss::Dual, lr::Real=opt.lr; ϵ::Real=1e-8)
     @assert ϵ > 0
     
     opt.t += one(opt.t)
-    parid::Integer = 1
+    parid::Integer = 1 # index of current parameter in `opt.m`, `opt.v`
     for par in opt.params
         @inbounds for i in eachindex(par)
             forward_grad_i = loss.im * par[i].im

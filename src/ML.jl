@@ -21,11 +21,44 @@ Loss functions.
 $(EXPORTS)
 """
 module Losses
-export mse, mae
-import ..mean, ..EXPORTS
+    export mse, mae
+    import ..mean, ..EXPORTS
 
-mse(y_hat, y) = mean(@. (y_hat - y)^2)
-mae(y_hat, y) = mean(@. abs(y_hat - y))
+    mse(y_hat, y) = mean(@. (y_hat - y)^2)
+    mae(y_hat, y) = mean(@. abs(y_hat - y))
+end
+
+"""
+Initializers for neural network weights.
+
+$(EXPORTS)
+"""
+module Initializers
+    import ..EXPORTS, TYPEDSIGNATURES
+
+    "Random number from U[-r, r]"
+    rand_uniform(r::Real, dims...) = 2r .* rand(dims...) .- r
+
+    function glorot_normal(in::Integer, out::Integer)
+        variance = 2 / (in + out)
+        sqrt(variance) * randn(out, in)
+    end
+
+    function glorot_uniform(in::Integer, out::Integer)
+        r = sqrt(6 / (in + out))
+        rand_uniform(r, out, in)
+    end
+
+    """
+    $(TYPEDSIGNATURES)
+
+    Return a matrix with singular value `0 < r < 1`.
+    Useful for Echo State networks.
+    """
+    function decaying(in::Integer, out::Integer, r::Real=0.9)
+        W = randn(out, in)
+        W ./= svd(W).S[1] # div by highest singular value
+    end
 end
 
 abstract type AbstractModule end
@@ -48,9 +81,8 @@ Callable linear module. Can be applied to matrix of shape `(n_observations, n_di
 
 Same as <https://pytorch.org/docs/stable/generated/torch.nn.Linear.html>
 """
-function Linear(in_::Integer, out::Integer)
-    W = randn(out, in_)
-    W ./= svd(W).S[1] # div by highest singular value
+function Linear(in_::Integer, out::Integer, init::Function=Initializers.glorot_uniform)
+    W = init(in_, out)
     b = zeros(out)
 
     Linear(Dual.(W), Dual.(b))
