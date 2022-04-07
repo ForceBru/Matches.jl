@@ -30,8 +30,8 @@ model = Sequential(
     Linear(5, 1)
 )
 
-# Optimizer
-optim = Descent(params(model), 1e-4)
+# Optimizer (Descent, Adam)
+optim = Adam(params(model), 1e-4)
 
 # Train
 epochs = 50_000

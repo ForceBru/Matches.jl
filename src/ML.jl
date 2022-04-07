@@ -1,4 +1,4 @@
-export Activations, Losses, Linear, Sequential, params
+export Activations, Losses, Linear, Sequential, params, nparams
 
 """
 Activation functions.
@@ -31,6 +31,9 @@ end
 abstract type AbstractModule end
 
 params(::Any)::Tuple{Vararg{AbstractVecOrMat}} = ()
+nparams(mod::Any)::Integer = 0
+nparams(mod::AbstractModule)::Integer = mod |> params .|> length |> sum
+nparams(params::Tuple) = params .|> length |> sum
 
 # ===== Linear =====
 mutable struct Linear{T<:Real} <: AbstractModule
