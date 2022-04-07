@@ -9,6 +9,11 @@ end
 
 using Matches, UnicodePlots
 
+function normalize_01(X::AbstractVector)
+    Xmin, Xmax = minimum(X), maximum(X)
+    @. (X - Xmin) / (Xmax - Xmin)
+end
+
 function to_windows(series::AbstractVector, win_size)
     vcat([
         series[off - win_size + 1:off]'
@@ -18,7 +23,7 @@ end
 
 # Data (n_observations, n_features)
 @info "Generating fake data..."
-time_series = cumsum(randn(200))
+time_series = cumsum(randn(200)) |> normalize_01
 windows = to_windows(time_series, 20 + 1)
 
 X, Y = windows[:, 1:end-1], windows[:, end:end]
