@@ -34,7 +34,7 @@ Initializers for neural network weights.
 $(EXPORTS)
 """
 module Initializers
-    import ..EXPORTS, TYPEDSIGNATURES
+    import ..EXPORTS, ..TYPEDSIGNATURES
 
     "Random number from U[-r, r]"
     rand_uniform(r::Real, dims...) = 2r .* rand(dims...) .- r
@@ -58,6 +58,7 @@ module Initializers
     function decaying(in::Integer, out::Integer, r::Real=0.9)
         W = randn(out, in)
         W ./= svd(W).S[1] # div by highest singular value
+        W .* r
     end
 end
 
